@@ -1,5 +1,8 @@
 from flask import Flask, jsonify
 import sqlite3
+import os
+
+os.environ['FLASK_APP'] = 'api.py'
 
 app = Flask(__name__)
 
@@ -27,8 +30,6 @@ def listar_tarefas():
         })
 
     return jsonify(lista)
-
-import os
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
