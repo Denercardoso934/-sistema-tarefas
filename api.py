@@ -2,12 +2,25 @@ from flask import Flask, jsonify
 import sqlite3
 import os
 
-os.environ['FLASK_APP'] = 'api.py'
-
 app = Flask(__name__)
 
 def conectar():
     return sqlite3.connect("tarefas.db")
+
+def init_db():
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS tarefas (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo TEXT NOT NULL,
+            concluida INTEGER DEFAULT 0
+        )
+    """)
+    conn.commit()
+    conn.close()
+
+init_db()
 
 @app.route("/")
 def inicio():
